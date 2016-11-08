@@ -12,6 +12,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.RemoteException;
 import android.support.annotation.Nullable;
+import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -149,21 +150,24 @@ public class secondFrag extends Fragment implements BeaconConsumer{
                 final int minor = (scanRecord[startByte + 22] & 0xff) * 0x100 + (scanRecord[startByte + 23] & 0xff);
 
 
-
                 //Record in front
                 Log.i(LOG_TAG,"UUID: " +uuid + "\\nmajor: " +major +"\\nminor" +minor);
 
                 if(String.valueOf(minor).equals("36128")){
                       setText1("Welcome to IFMS");
+
                       Toast.makeText(getActivity(), "WELCOME TO IFMS!!!", Toast.LENGTH_LONG).show();
+                      setMessage("WELCOME TO IFMS");
                 }
                 else if(String.valueOf(minor).equals("1219")){
                     setText1("There is a whopping 50% off for the second top purchased at H&M!");
                     Toast.makeText(getActivity(), "There is a whopping 50% off for the second top purchased at H&M!", Toast.LENGTH_LONG).show();
+                    setMessage("There is a whopping 50% off for the second top purchased at H&M!");
                 }
                 else{
                     setText1("Hurry Up! The 1 for 1 drink at Starbucks ends at 4pm!");
                     Toast.makeText(getActivity(), "Hurry Up! The 1 for 1 drink at Starbucks ends at 4pm!", Toast.LENGTH_LONG).show();
+                    setMessage("Hurry Up! The 1 for 1 drink at Starbucks ends at 4pm!");
                 }
 
                 ArrayList<String> list = new ArrayList<>();
@@ -208,6 +212,12 @@ public class secondFrag extends Fragment implements BeaconConsumer{
     public void setText1(String text){
         TextView textView = (TextView) myView.findViewById(R.id.message);
         textView.setText(text);
+    }
+    public void setMessage(String msg){
+        NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(this.getActivity());
+        mBuilder.setSmallIcon(R.drawable.common_google_signin_btn_icon_dark);
+        mBuilder.setContentTitle("Beacon Message Alert: Click here to view message!");
+        mBuilder.setContentText(msg);
     }
 
 
